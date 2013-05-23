@@ -14,5 +14,6 @@ from this repository.
 - You might have to uninstall any other grooveshark related extensions first.
 - Visit grooveshark.com - it should now load over your appengine app.
 
+Please note that the App serves publicly - you might want to add authentication.  
 
 Too complicated? Just use something like [Deezer](http://goo.gl/SNOlG) instead.
