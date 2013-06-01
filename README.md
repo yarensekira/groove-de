@@ -6,7 +6,7 @@ Setup:
 - [Sign up for an Appengine Account](https://appspot.com) and register an
 application. Choose any free Application Identifier (AppID).
 - Clone this repository
-- Edit gae/app.yaml and extension/main.js and replace PUT-YOUR-APPID-HERE with your AppID.
+- Edit gae/app.yaml and extension/manifest.json and replace PUT-YOUR-APPID-HERE with your AppID.
 - Upload your App with appcfg.py from the App Engine SDK: `appcfg.py update gae`
 - In Chrome open chrome://extensions/ (Tools -> Extensions) enabled Developer
 Mode and choose "Load unpacked extension...". Choose the extension folder

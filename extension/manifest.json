@@ -4,11 +4,17 @@
     "manifest_version": 2,
     "description": "Erlaubt es Grooveshark von Deutschland aus zu verwenden",
     "icons": { "128": "icon_128.png", "48": "icon_48.png" },
+    "offline_enabled": false,
     "permissions": [
+        "cookies",
         "http://grooveshark.com/",
         "http://localhost:8080/",
         "https://PUT-YOUR-APPID-HERE.appspot.com/"
     ],
+    "background": {
+        "scripts": ["sync_cookies.js"],
+        "persistent": false
+    },
     "content_scripts": [
         {
             "matches": [
