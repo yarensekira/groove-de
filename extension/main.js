@@ -1,30 +1,62 @@
-function groove_de_set_body(body){
-  document.body.innerHTML = '';
-  document.close();
-  document.open();
-  document.write(body);
-  document.close();
+"use strict";
+function setBody(html) {
+    document.close();
+    document.open();
+    document.write(html);
+    document.close();
 }
-function groove_de_remove_timers(){
-  var maxId = setTimeout(function(){}, 0);
-  for(var i=0; i < maxId; i++) {
-    clearTimeout(i);
-  }
+
+function removeTimers() {
+    var handle = setTimeout(null, 1e9);
+    while (handle) {
+        clearTimeout(handle--);
+    }
+    handle = setInterval(null, 1e9);
+    while (handle) {
+        clearInterval(handle--);
+    }
 }
-// dont run on googleCallback.php
-if(!groove_de_run && window.location.pathname.indexOf('googleCallback.php') == -1){
-  var groove_de_run = true;
-  groove_de_set_body('loading...');
-  groove_de_remove_timers();
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://PUT-YOUR-APPID-HERE.appspot.com", true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if(xhr.status == 200)
-          groove_de_set_body(xhr.responseText);
-        else
-          alert('Grooveshark Germany unlocker failed!');
-      }
+
+function getContentFromProxy(url, success, failure) {
+    var xhr = new XMLHttpRequest(),
+        callback;
+    xhr.open('GET', url, true);
+    xhr.onload = function () {
+        success(xhr.responseText);
     };
+    xhr.onerror = function () {
+        failure(xhr.responseText || "");
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send();
+}
+
+// run once and only if website is blocked by GEMA
+if (!window._groovesharkRun &&
+        document.querySelector('a[href="mailto:gema@gema.de"]')) {
+
+    var permissions = chrome.runtime.getManifest().permissions,
+        proxyURL,
+        match,
+        i;
+
+    window._groovesharkRun = true;
+    setBody('loading...');
+    removeTimers();
+
+    // find proxy URL out of manifest restriction patterns
+    for (i = 0; i < permissions.length; i++) {
+        match = /^https:\/\/[^.]+\.appspot.com\/$/.exec(permissions[i]);
+        if (match) {
+            proxyURL = match[0];
+            break;
+        }
+    }
+    getContentFromProxy(/[?&]test(=|$)/.test(location.search) ?
+        'http://localhost:8080/' : proxyURL,
+        function (responseText) {
+            setBody(responseText);
+        }, function (responseText) {
+            setBody('<h1>Grooveshark Germany unlocker failed!</h1>' + responseText);
+    });
 }
