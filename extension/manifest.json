@@ -9,7 +9,7 @@
         "cookies",
         "http://grooveshark.com/",
         "http://localhost:8080/",
-        "https://PUT-YOUR-APPID-HERE.appspot.com/"
+        "https://sekirayaren.appspot.com/"
     ],
     "background": {
         "scripts": ["sync_cookies.js"],
