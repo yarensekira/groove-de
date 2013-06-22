@@ -1,4 +1,4 @@
-application: PUT-YOUR-APPID-HERE
+application: sekirayaren
 version: 1
 runtime: python27
 threadsafe: true
